@@ -1,0 +1,35 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: var(--header-height);
+  background-color: var(--dark-grey);
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.navbar {
+  height: 100%;
+}
+
+.linkList {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  gap: 16px;
+}
+
+.linkItem {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}

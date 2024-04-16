@@ -1,0 +1,16 @@
+.linkButton {
+  text-decoration: none;
+  color: var(--light-grey);
+  font-size: var(--font-size-m);
+  font-weight: 500;
+  padding: 8px 16px;
+  border: 1px solid var(--light-grey);
+  background-color: transparent;
+  border-radius: 8px;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    color: var(--white);
+    border-color: var(--white);
+  }
+}
