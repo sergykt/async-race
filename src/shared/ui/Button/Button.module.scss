@@ -3,13 +3,23 @@
   font-size: var(--font-size-m);
   font-weight: 500;
   padding: 8px 16px;
-  border: 1px solid var(--blue);
+  border: 3px solid var(--blue);
   background-color: transparent;
   border-radius: 8px;
   transition: all 0.2s ease-in-out;
+  text-transform: uppercase;
 
   &:hover {
-    color: var(--light-blue);
-    border-color: var(--light-blue);
+    opacity: 0.7;
   }
+}
+
+.small {
+  font-size: var(--font-size-s);
+  padding: 4px 8px;
+}
+
+.large {
+  font-size: var(--font-size-l);
+  padding: 12px 24px;
 }

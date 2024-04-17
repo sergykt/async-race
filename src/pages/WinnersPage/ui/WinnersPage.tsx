@@ -1,12 +1,13 @@
-import { MainLayout } from '@/layouts/MainLayout';
+import { PageLayout } from '@/layouts/PageLayout';
 import { Container } from '@/shared/ui/Container';
+import styles from './WinnersPage.module.scss';
 
 const WinnersPage = () => (
-  <MainLayout>
+  <PageLayout>
     <Container>
-      <div>WinnersPage</div>
+      <h1 className={styles.title}>Winners</h1>
     </Container>
-  </MainLayout>
+  </PageLayout>
 );
 
 export default WinnersPage;

@@ -1,0 +1,30 @@
+.wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 27px;
+}
+
+.label {
+  position: absolute;
+  visibility: hidden;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.input {
+  background-color: var(--light-grey);
+  padding: 0;
+  width: 100%;
+  border: 1px solid var(--dark-grey);
+  border-radius: 2px;
+  box-sizing: border-box;
+  cursor: pointer;
+
+  &:focus {
+    border-color: var(--blue);
+    box-shadow: inset 0 0 0 1px var(--blue);
+  }
+}

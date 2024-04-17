@@ -10,14 +10,13 @@ export const Header = memo(() => (
       <nav className={styles.navbar}>
         <ul className={styles.linkList}>
           <li className={styles.linkItem}>
-            <LinkButton to={AppRoutes.GARAGE}>GARAGE</LinkButton>
+            <LinkButton to={AppRoutes.GARAGE}>Garage</LinkButton>
           </li>
           <li className={styles.linkItem}>
-            <LinkButton to={AppRoutes.WINNERS}>WINNERS</LinkButton>
+            <LinkButton to={AppRoutes.WINNERS}>Winners</LinkButton>
           </li>
         </ul>
       </nav>
-      <img src='/img/logo.png' alt='logo' width={36} height={36} />
     </Container>
   </header>
 ));

@@ -13,7 +13,10 @@ body {
   font-size: var(--font-size-m);
   line-height: 1.5;
   color: var(--white);
-  background-color: var(--bg-color);
+  background-image: url('@/shared/assets/img/background.jpg');
+  background-size: 400px;
+  background-repeat: repeat;
+  background-position: center;
   height: 100%;
 }
 

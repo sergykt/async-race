@@ -1,11 +1,7 @@
 .container {
-  max-width: 1200px;
+  max-width: 1440px;
   width: 100%;
   padding: 0 40px;
   margin: 0 auto;
   box-sizing: border-box;
-
-  @media (max-width: var(--screen-m)) {
-    padding: 0 20px;
-  }
 }
