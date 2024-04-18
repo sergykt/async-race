@@ -1,6 +1,17 @@
-.raceTrack {
+.list {
   display: flex;
   flex-direction: column;
   margin: 0;
   padding: 20px 0;
+}
+
+.count {
+  font-size: var(--font-size-l);
+  margin: 10px;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

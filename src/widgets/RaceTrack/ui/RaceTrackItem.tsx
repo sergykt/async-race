@@ -1,5 +1,5 @@
 import { type FC } from 'react';
-import CarSvg from '@/shared/assets/img/car.svg?react';
+import CarSvg from '@/shared/assets/svg/car.svg?react';
 import styles from './RaceTrackItem.module.scss';
 
 interface IRaceBoardItemProps {

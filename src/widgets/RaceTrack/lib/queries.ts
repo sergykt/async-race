@@ -1,18 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
-import { carApi } from '@/entities/car';
+import { carApi, type ICarParams } from '@/entities/car';
 
-interface IUseGetCarsProps {
-  page?: number;
-  limit?: number;
-}
-
-export const useGetCars = (props: IUseGetCarsProps) => {
-  const { page = 1, limit = 7 } = props;
+export const useGetCars = (props: ICarParams) => {
+  const { page, limit } = props;
 
   return useQuery({
     queryKey: ['cars', page, limit],
     queryFn: async () => {
-      const response = carApi.getCars(page, limit);
+      const response = carApi.getCars(props);
 
       return response;
     },

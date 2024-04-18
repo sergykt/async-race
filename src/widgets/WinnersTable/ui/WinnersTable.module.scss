@@ -1,0 +1,42 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0;
+  gap: 20px;
+}
+
+.table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-size: var(--font-size-l);
+  line-height: 1;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.table thead tr {
+  font-weight: 700;
+  border: 2px solid var(--light-grey);
+}
+
+.table th {
+  border-radius: 10px;
+}
+
+.table th,
+.table td {
+  padding: 10px;
+}
+
+.count {
+  font-size: var(--font-size-l);
+  margin: 10px;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

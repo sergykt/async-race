@@ -1,10 +1,10 @@
-import { type FC, type ComponentProps } from 'react';
+import { type FC, type ComponentProps, memo } from 'react';
 import classNames from 'classnames';
 import styles from './Container.module.scss';
 
 type ContainerProps = ComponentProps<'div'>;
 
-export const Container: FC<ContainerProps> = (props) => {
+export const Container: FC<ContainerProps> = memo((props) => {
   const { children, className, id } = props;
 
   return (
@@ -12,4 +12,4 @@ export const Container: FC<ContainerProps> = (props) => {
       {children}
     </div>
   );
-};
+});
