@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import { winnerApi, type IWinnersParams } from '@/entities/winner';
 import { carApi } from '@/entities/car';
 
@@ -19,5 +19,6 @@ export const useGetWinners = (props: IWinnersParams) => {
 
       return { results: extendedResults, count };
     },
+    placeholderData: keepPreviousData,
   });
 };

@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useEffect } from 'react';
 import { usePagination, getPagesCount } from '@/shared/lib/pagination';
 import { Pagination } from '@/shared/ui/Pagination';
 import { useGetWinners } from '../lib/queries';
@@ -7,16 +7,18 @@ import styles from './WinnersTable.module.scss';
 
 export const WinnersTable = memo(() => {
   const { page, limit, setPage } = usePagination();
-
-  const { data } = useGetWinners({ page, limit, order: 'DESC', sort: 'wins' });
-
-  if (!data) {
-    return null;
-  }
-
-  const { count, results } = data;
-
-  const pagesCount = getPagesCount(data.count, limit);
+  const { data: { results = [], count = 0 } = {}, isFetched } = useGetWinners({
+    page,
+    limit,
+    order: 'DESC',
+    sort: 'wins',
+  });
+  const pagesCount = getPagesCount(count, limit);
+  useEffect(() => {
+    if (isFetched && page > pagesCount) {
+      setPage(pagesCount);
+    }
+  }, [isFetched, setPage, pagesCount, page]);
 
   return (
     <div className={styles.wrapper}>

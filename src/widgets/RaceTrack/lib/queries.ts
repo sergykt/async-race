@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import { carApi, type ICarParams } from '@/entities/car';
 
 export const useGetCars = (props: ICarParams) => {
@@ -11,5 +11,6 @@ export const useGetCars = (props: ICarParams) => {
 
       return response;
     },
+    placeholderData: keepPreviousData,
   });
 };
