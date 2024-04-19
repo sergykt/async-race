@@ -1,7 +1,16 @@
 import { apiInstance } from '@/shared/api/apiInstance';
 import { routes } from '@/shared/api/routes';
+import { PageQueryKeys } from '@/shared/lib/pagination';
 import { type ICar } from '../model/types';
 import { type ICarDto, type ICarParams } from './types';
+
+const createCarsParams = (props: ICarParams) => {
+  const { limit, page } = props;
+  const params = new URLSearchParams();
+  params.append(PageQueryKeys.LIMIT, String(limit));
+  params.append(PageQueryKeys.PAGE, String(page));
+  return params;
+};
 
 export const carApi = {
   getCar: async (id: number) => {
@@ -9,10 +18,7 @@ export const carApi = {
     return response.data;
   },
   getCars: async (props: ICarParams) => {
-    const { limit, page } = props;
-    const params = new URLSearchParams();
-    params.append('_limit', String(limit));
-    params.append('_page', String(page));
+    const params = createCarsParams(props);
 
     const response = await apiInstance.get<ICar[]>(routes.garagePath(), { params });
     const count = Number(response.headers['x-total-count']);

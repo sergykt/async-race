@@ -28,6 +28,17 @@
 .table th,
 .table td {
   padding: 10px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.table th[data-selectable='true'] {
+  cursor: pointer;
+  color: var(--mango);
+}
+
+.table th[data-selected='true'] {
+  color: var(--blue);
 }
 
 .count {

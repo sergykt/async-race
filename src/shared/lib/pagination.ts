@@ -1,19 +1,27 @@
 import { useSearchParams } from 'react-router-dom';
 
-const defaultLimit = 7;
+export enum PageQueryKeys {
+  PAGE = '_page',
+  LIMIT = '_limit',
+}
 
-export const usePagination = () => {
+export const usePagination = (defaultLimit = 7) => {
   const [searchParams, setSearchParams] = useSearchParams();
-
-  const page = Number(searchParams.get('page')) || 1;
-  const limit = Number(searchParams.get('limit')) || defaultLimit;
+  const page = Number(searchParams.get(PageQueryKeys.PAGE)) || 1;
+  const limit = Number(searchParams.get(PageQueryKeys.LIMIT)) || defaultLimit;
 
   const setPage = (newPage: number) => {
-    setSearchParams({ page: String(newPage) });
+    setSearchParams((prev) => {
+      prev.set(PageQueryKeys.PAGE, String(newPage));
+      return prev;
+    });
   };
 
   const setLimit = (newLimit: number) => {
-    setSearchParams({ limit: String(newLimit) });
+    setSearchParams((prev) => {
+      prev.set(PageQueryKeys.LIMIT, String(newLimit));
+      return prev;
+    });
   };
 
   return { page, limit, setPage, setLimit };

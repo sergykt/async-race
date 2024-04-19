@@ -1,13 +1,17 @@
+import { OrderDirection } from '@/shared/lib/sorting';
 import { type IWinner } from '../model/types';
 
 export type IWinnerDto = Omit<IWinner, 'id'>;
 
-export type SortBy = 'id' | 'wins' | 'time';
-export type OrderBy = 'ASC' | 'DESC';
+export enum WinnersSortBy {
+  ID = 'id',
+  WINS = 'wins',
+  TIME = 'time',
+}
 
 export interface IWinnersParams {
   limit: number;
   page: number;
-  sort: SortBy;
-  order: OrderBy;
+  sort: WinnersSortBy;
+  order: OrderDirection;
 }

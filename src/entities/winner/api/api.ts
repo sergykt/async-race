@@ -1,7 +1,20 @@
 import { apiInstance } from '@/shared/api/apiInstance';
 import { routes } from '@/shared/api/routes';
+import { PageQueryKeys } from '@/shared/lib/pagination';
+import { OrderQueryKeys } from '@/shared/lib/sorting';
 import { type IWinner } from '../model/types';
 import { type IWinnerDto, type IWinnersParams } from './types';
+
+const createWinnersParams = (props: IWinnersParams) => {
+  const { limit, page, sort, order } = props;
+  const params = new URLSearchParams();
+  params.append(PageQueryKeys.LIMIT, String(limit));
+  params.append(PageQueryKeys.PAGE, String(page));
+  params.append(OrderQueryKeys.SORT, sort);
+  params.append(OrderQueryKeys.ORDER, order);
+
+  return params;
+};
 
 export const winnerApi = {
   getWinner: async (id: number) => {
@@ -9,13 +22,7 @@ export const winnerApi = {
     return response.data;
   },
   getWinners: async (props: IWinnersParams) => {
-    const { limit, page, sort, order } = props;
-    const params = new URLSearchParams();
-    params.append('_limit', String(limit));
-    params.append('_page', String(page));
-    params.append('_sort', sort);
-    params.append('_order', order);
-
+    const params = createWinnersParams(props);
     const response = await apiInstance.get<IWinner[]>(routes.winnersPath(), { params });
     const count = Number(response.headers['x-total-count']);
     return { results: response.data, count };
