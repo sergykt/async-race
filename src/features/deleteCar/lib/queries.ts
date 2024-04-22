@@ -1,7 +1,7 @@
 import { useQueryClient, useMutation } from '@tanstack/react-query';
 import { carApi } from '@/entities/car';
 
-export const useUpdateCar = () => {
+export const useDeleteCar = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (id: number) => {

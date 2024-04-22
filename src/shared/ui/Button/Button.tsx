@@ -7,7 +7,7 @@ interface IButtonProps extends ComponentProps<'button'> {
 }
 
 export const Button: FC<IButtonProps> = memo((props) => {
-  const { type, children, disabled, id, className, ref, size } = props;
+  const { type, children, disabled, id, className, ref, size, onClick } = props;
 
   let buttonSize;
 
@@ -28,6 +28,7 @@ export const Button: FC<IButtonProps> = memo((props) => {
       id={id}
       ref={ref}
       className={classNames(styles.button, buttonSize, className)}
+      onClick={onClick}
       disabled={disabled}
     >
       {children}

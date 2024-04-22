@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { useFormik } from 'formik';
 import { type ICarDto } from '@/entities/car';
 import { Button } from '@/shared/ui/Button';
@@ -11,7 +12,7 @@ const initialValues: ICarDto = {
   color: '#000000',
 };
 
-export const CreateCarForm = () => {
+export const CreateCarForm = memo(() => {
   const { mutateAsync, isPending } = useCreateCar();
   const formik = useFormik({
     initialValues,
@@ -21,6 +22,7 @@ export const CreateCarForm = () => {
       } catch (err) {
         console.error(err);
       }
+      formik.resetForm();
     },
   });
 
@@ -30,23 +32,16 @@ export const CreateCarForm = () => {
         name='name'
         id='name-create-id'
         label='Car name'
-        type='text'
         placeholder='TYPE CAR BRAND'
         disabled={isPending}
         value={formik.values.name}
         onChange={formik.handleChange}
         required
       />
-      <ColorInput
-        name='color'
-        id='color-create-id'
-        label='Car color'
-        value={formik.values.color}
-        onChange={formik.handleChange}
-      />
+      <ColorInput name='color' value={formik.values.color} onChange={formik.handleChange} />
       <Button type='submit' disabled={isPending}>
         Create
       </Button>
     </form>
   );
-};
+});

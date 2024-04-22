@@ -1,4 +1,4 @@
-import { type FC, type ComponentProps } from 'react';
+import { type FC, type ComponentProps, memo } from 'react';
 import classNames from 'classnames';
 import styles from './Input.module.scss';
 
@@ -6,7 +6,7 @@ interface IInputProps extends ComponentProps<'input'> {
   label: string;
 }
 
-export const Input: FC<IInputProps> = (props) => {
+export const Input: FC<IInputProps> = memo((props) => {
   const { className, id, name, label, type, placeholder, value, required, disabled, onChange } =
     props;
 
@@ -28,4 +28,4 @@ export const Input: FC<IInputProps> = (props) => {
       />
     </div>
   );
-};
+});

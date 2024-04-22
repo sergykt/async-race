@@ -1,12 +1,12 @@
 import { PageLayout } from '@/layouts/PageLayout';
-import { ManagementPanel } from '@/widgets/ManagementPanel';
+import { ManagePanel } from '@/widgets/ManagePanel';
 import { RaceTrack } from '@/widgets/RaceTrack';
 import { Container } from '@/shared/ui/Container';
 
 const GaragePage = () => (
   <PageLayout>
     <Container>
-      <ManagementPanel />
+      <ManagePanel />
       <RaceTrack />
     </Container>
   </PageLayout>

@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import { type FC, memo } from 'react';
 import { WinnersSortBy } from '@/entities/winner';
 
 interface IWinnersTableHeaderProps {
@@ -6,7 +6,7 @@ interface IWinnersTableHeaderProps {
   setSortBy: (newSort: WinnersSortBy) => void;
 }
 
-export const WinnersTableHeader: FC<IWinnersTableHeaderProps> = (props) => {
+export const WinnersTableHeader: FC<IWinnersTableHeaderProps> = memo((props) => {
   const { sort, setSortBy } = props;
 
   const isSelected = (sortBy: WinnersSortBy) => sort === sortBy;
@@ -40,4 +40,4 @@ export const WinnersTableHeader: FC<IWinnersTableHeaderProps> = (props) => {
       </tr>
     </thead>
   );
-};
+});

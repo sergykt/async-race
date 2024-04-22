@@ -21,7 +21,7 @@ export const RaceTrack = memo(() => {
     <div className={styles.wrapper}>
       <ul className={styles.list}>
         {results.map(({ id, color, name }) => (
-          <RaceTrackItem name={name} color={color} key={id} />
+          <RaceTrackItem name={name} color={color} id={id} key={id} />
         ))}
       </ul>
       <div className={styles.footer}>
