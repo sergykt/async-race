@@ -1,4 +1,5 @@
-import { type FC, memo } from 'react';
+import { type FC } from 'react';
+import { observer } from 'mobx-react-lite';
 import { DeleteCarButton } from '@/features/deleteCar/ui/DeleteCarButton';
 import { useStore } from '@/shared/lib/store';
 import { Button } from '@/shared/ui/Button';
@@ -11,11 +12,17 @@ interface IRaceBoardItemProps {
   id: number;
 }
 
-export const RaceTrackItem: FC<IRaceBoardItemProps> = memo((props) => {
+export const RaceTrackItem: FC<IRaceBoardItemProps> = observer((props) => {
   const { color, name, id } = props;
   const {
-    managePanelStore: { selectCar, resetSelection },
+    managePanelStore: { selectedCarId, selectCar, resetSelection },
   } = useStore();
+
+  const deleteCarCallback = () => {
+    if (selectedCarId === id) {
+      resetSelection();
+    }
+  };
 
   return (
     <li className={styles.item}>
@@ -28,7 +35,7 @@ export const RaceTrackItem: FC<IRaceBoardItemProps> = memo((props) => {
         >
           Select
         </Button>
-        <DeleteCarButton id={id} callback={resetSelection} />
+        <DeleteCarButton id={id} callback={deleteCarCallback} />
       </div>
       <CarSvg className={styles.car} fill={color} width={100} height={35} />
       <p className={styles.name}>{name}</p>

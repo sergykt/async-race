@@ -34,11 +34,11 @@
 
 .table th[data-selectable='true'] {
   cursor: pointer;
-  color: var(--mango);
+  color: var(--blue);
 }
 
 .table th[data-selected='true'] {
-  color: var(--blue);
+  color: var(--mango);
 }
 
 .count {
