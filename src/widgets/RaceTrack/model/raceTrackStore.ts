@@ -1,7 +1,11 @@
 import { makeAutoObservable } from 'mobx';
 import { type ICarDto } from '@/entities/car';
 
-export class ManagePanelStore {
+export class RaceTrackStore {
+  page = 1;
+
+  limit = 7;
+
   selectedCarId: number | null = null;
 
   carValues: ICarDto = {
@@ -19,11 +23,18 @@ export class ManagePanelStore {
   };
 
   resetSelection = () => {
-    console.log('reset');
     this.selectedCarId = null;
     this.carValues = {
       name: '',
       color: '#000000',
     };
+  };
+
+  setPage = (page: number) => {
+    this.page = page;
+  };
+
+  setLimit = (limit: number) => {
+    this.limit = limit;
   };
 }

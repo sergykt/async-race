@@ -1,4 +1,4 @@
-import { OrderDirection } from '@/shared/lib/sorting';
+import { OrderDirection } from '@/shared/const/OrderDirection';
 import { type IWinner } from '../model/types';
 
 export type IWinnerDto = Omit<IWinner, 'id'>;

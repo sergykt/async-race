@@ -1,7 +1,6 @@
 import { apiInstance } from '@/shared/api/apiInstance';
 import { routes } from '@/shared/api/routes';
-import { PageQueryKeys } from '@/shared/lib/pagination';
-import { OrderQueryKeys } from '@/shared/lib/sorting';
+import { PageQueryKeys, OrderQueryKeys } from '@/shared/const/QueryParams';
 import { type IWinner } from '../model/types';
 import { type IWinnerDto, type IWinnersParams } from './types';
 

@@ -1,12 +1,16 @@
-import { memo, useEffect } from 'react';
+import { useEffect } from 'react';
+import { observer } from 'mobx-react-lite';
 import { Pagination } from '@/shared/ui/Pagination';
-import { usePagination, getPagesCount } from '@/shared/lib/pagination';
+import { useStore } from '@/shared/lib/store';
+import { getPagesCount } from '@/shared/lib/getPagesCount';
 import { useGetCars } from '../lib/queries';
 import { RaceTrackItem } from './RaceTrackItem';
 import styles from './RaceTrack.module.scss';
 
-export const RaceTrack = memo(() => {
-  const { page, limit, setPage } = usePagination();
+export const RaceTrack = observer(() => {
+  const {
+    raceTrackStore: { page, limit, setPage },
+  } = useStore();
   const { data: { results = [], count = 0 } = {}, isFetched } = useGetCars({ page, limit });
 
   const pagesCount = getPagesCount(count, limit);

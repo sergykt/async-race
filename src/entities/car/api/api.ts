@@ -1,6 +1,6 @@
 import { apiInstance } from '@/shared/api/apiInstance';
 import { routes } from '@/shared/api/routes';
-import { PageQueryKeys } from '@/shared/lib/pagination';
+import { PageQueryKeys } from '@/shared/const/QueryParams';
 import { type ICar } from '../model/types';
 import { type ICarDto, type ICarParams } from './types';
 

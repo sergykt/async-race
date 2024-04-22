@@ -15,7 +15,7 @@ interface IRaceBoardItemProps {
 export const RaceTrackItem: FC<IRaceBoardItemProps> = observer((props) => {
   const { color, name, id } = props;
   const {
-    managePanelStore: { selectedCarId, selectCar, resetSelection },
+    raceTrackStore: { selectedCarId, selectCar, resetSelection },
   } = useStore();
 
   const deleteCarCallback = () => {

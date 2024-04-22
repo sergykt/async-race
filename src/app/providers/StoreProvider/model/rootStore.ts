@@ -1,10 +1,13 @@
 import { EngineStore } from '@/entities/engine';
-import { ManagePanelStore } from '@/widgets/ManagePanel';
+import { RaceTrackStore } from '@/widgets/RaceTrack';
+import { WinnersTableStore } from '@/widgets/WinnersTable';
 
 export class RootStore {
   engineStore = new EngineStore();
 
-  managePanelStore = new ManagePanelStore();
+  raceTrackStore = new RaceTrackStore();
+
+  winnersTableStore = new WinnersTableStore();
 }
 
 export const rootStore = new RootStore();

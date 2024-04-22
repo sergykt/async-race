@@ -1,16 +1,17 @@
-import { memo, useEffect } from 'react';
-import { WinnersSortBy } from '@/entities/winner';
-import { usePagination, getPagesCount } from '@/shared/lib/pagination';
+import { useEffect } from 'react';
+import { observer } from 'mobx-react-lite';
+import { getPagesCount } from '@/shared/lib/getPagesCount';
 import { Pagination } from '@/shared/ui/Pagination';
-import { useSortBy } from '@/shared/lib/sorting';
+import { useStore } from '@/shared/lib/store';
 import { WinnersItem } from './WinnersItem';
 import { WinnersTableHeader } from './WinnersTableHeader';
 import { useGetWinners } from '../lib/queries';
 import styles from './WinnersTable.module.scss';
 
-export const WinnersTable = memo(() => {
-  const { page, limit, setPage } = usePagination();
-  const { sort, order, setSortBy } = useSortBy(WinnersSortBy, WinnersSortBy.TIME);
+export const WinnersTable = observer(() => {
+  const {
+    winnersTableStore: { page, setPage, limit, sort, order, setSortBy },
+  } = useStore();
 
   const { data: { results = [], count = 0 } = {}, isFetched } = useGetWinners({
     page,
