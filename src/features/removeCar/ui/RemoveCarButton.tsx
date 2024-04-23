@@ -1,16 +1,16 @@
 import { type FC } from 'react';
 import { Button } from '@/shared/ui/Button';
-import { useDeleteCar } from '../lib/queries';
-import styles from './DeleteCarButton.module.scss';
+import { useRemoveCar } from '../lib/queries';
+import styles from './RemoveCarButton.module.scss';
 
 interface IDeleteCarButtonProps {
   id: number;
   callback?: () => void;
 }
 
-export const DeleteCarButton: FC<IDeleteCarButtonProps> = (props) => {
+export const RemoveCarButton: FC<IDeleteCarButtonProps> = (props) => {
   const { id, callback = () => {} } = props;
-  const { mutate, isPending } = useDeleteCar();
+  const { mutate, isPending } = useRemoveCar();
 
   const handleClick = () => {
     try {
@@ -22,8 +22,8 @@ export const DeleteCarButton: FC<IDeleteCarButtonProps> = (props) => {
   };
 
   return (
-    <Button className={styles.deleteButton} size='small' onClick={handleClick} disabled={isPending}>
-      Delete
+    <Button className={styles.removeButton} size='small' onClick={handleClick} disabled={isPending}>
+      Remove
     </Button>
   );
 };

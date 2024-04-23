@@ -19,7 +19,7 @@ export const WinnersTableHeader: FC<IWinnersTableHeaderProps> = memo((props) => 
           data-selectable='true'
           data-selected={isSelected(WinnersSortBy.ID)}
         >
-          #
+          №
         </th>
         <th>Car</th>
         <th>Name</th>

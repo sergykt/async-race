@@ -1,10 +1,10 @@
-import { makeObservable } from 'mobx';
+import { makeAutoObservable } from 'mobx';
 import { IEngine } from './types';
 
 export class EngineStore {
   engines: Record<string, IEngine> = {};
 
   constructor() {
-    makeObservable(this);
+    makeAutoObservable(this);
   }
 }

@@ -3,10 +3,43 @@
 }
 
 .list {
+  position: relative;
   display: flex;
   flex-direction: column;
-  margin: 0;
-  padding: 20px 0;
+  margin: 0 0 20px;
+  padding: 0;
+
+  &::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 175px;
+    width: 4px;
+    height: 100%;
+    background-image: repeating-linear-gradient(
+      45deg,
+      var(--black) 0,
+      var(--black) 5px,
+      var(--white) 5px,
+      var(--white) 10px
+    );
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 90px;
+    width: 4px;
+    height: 100%;
+    background-image: repeating-linear-gradient(
+      45deg,
+      var(--black) 0,
+      var(--black) 5px,
+      var(--white) 5px,
+      var(--white) 10px
+    );
+  }
 }
 
 .count {

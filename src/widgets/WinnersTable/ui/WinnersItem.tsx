@@ -16,7 +16,7 @@ export const WinnersItem: FC<IWinnersItemProps> = memo((props) => {
     <tr>
       <td>{id}</td>
       <td>
-        <CarSvg fill={color} width={100} height={35} />
+        <CarSvg fill={color} width={77} height={39} />
       </td>
       <td>{name}</td>
       <td>{wins}</td>
