@@ -4,6 +4,7 @@
   align-items: center;
   border-bottom: 2px solid var(--white);
   padding: 8px 95px 8px 0;
+  gap: 8px;
 
   &:first-child {
     border-top: 2px solid var(--white);
@@ -16,7 +17,7 @@
   opacity: 0.7;
   text-transform: uppercase;
   margin: 0;
-  padding: 0 8px 0 150px;
+  padding: 0 8px 0 130px;
   letter-spacing: 0.25ch;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -24,7 +25,7 @@
 
 .car {
   position: absolute;
-  left: 85px;
+  left: 120px;
 }
 
 .buttonGroup {

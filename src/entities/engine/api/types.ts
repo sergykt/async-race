@@ -7,3 +7,8 @@ export enum EngineStatus {
   STOPPED = 'stopped',
   DRIVE = 'drive',
 }
+
+export enum EngineQueryKeys {
+  ID = 'id',
+  STATUS = 'status',
+}

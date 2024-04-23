@@ -1,0 +1,21 @@
+.engineControls {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.start {
+  color: var(--green);
+  border-color: var(--green);
+}
+
+.stop {
+  color: var(--yellow);
+  border-color: var(--yellow);
+}
+
+.start:disabled,
+.stop:disabled {
+  color: var(--light-grey);
+  border-color: var(--light-grey);
+}

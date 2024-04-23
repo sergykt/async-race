@@ -1,6 +1,7 @@
 import { type FC } from 'react';
 import { observer } from 'mobx-react-lite';
 import { RemoveCarButton } from '@/features/removeCar';
+import { EngineControls } from '@/features/engineControls';
 import { useStore } from '@/shared/lib/store';
 import { Button } from '@/shared/ui/Button';
 import CarSvg from '@/shared/assets/svg/car.svg?react';
@@ -37,7 +38,8 @@ export const RaceTrackItem: FC<IRaceBoardItemProps> = observer((props) => {
         </Button>
         <RemoveCarButton id={id} callback={deleteCarCallback} />
       </div>
-      <CarSvg className={styles.car} fill={color} width={77} height={39} />
+      <EngineControls id={id} />
+      <CarSvg className={styles.car} fill={color} width={70} height={36} />
       <p className={styles.name}>{name}</p>
     </li>
   );
