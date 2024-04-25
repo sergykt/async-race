@@ -10,7 +10,7 @@ interface IRaceBoardItemProps {
   car: ICar;
   selectCar: (id: number, body: ICarDto) => void;
   selected: boolean;
-  removeCallback: (selected: boolean) => void;
+  resetSelection: () => void;
 }
 
 export const RaceTrackItem: FC<IRaceBoardItemProps> = memo((props) => {
@@ -18,8 +18,12 @@ export const RaceTrackItem: FC<IRaceBoardItemProps> = memo((props) => {
     car: { name, color, id },
     selectCar,
     selected,
-    removeCallback,
+    resetSelection,
   } = props;
+
+  const removeCallback = () => {
+    if (selected) resetSelection();
+  };
 
   return (
     <li className={styles.item}>
@@ -27,7 +31,7 @@ export const RaceTrackItem: FC<IRaceBoardItemProps> = memo((props) => {
         <Button size='small' onClick={() => selectCar(id, { color, name })}>
           Select
         </Button>
-        <RemoveCarButton id={id} callback={() => removeCallback(selected)} />
+        <RemoveCarButton id={id} callback={removeCallback} />
       </div>
       <EngineControls id={id} />
       <CarSvg className={styles.car} fill={color} width={70} height={36} />

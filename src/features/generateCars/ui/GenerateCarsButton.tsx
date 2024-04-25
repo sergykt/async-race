@@ -1,8 +1,9 @@
+import { memo } from 'react';
 import { Button } from '@/shared/ui/Button';
 import { useGenerateCars } from '../lib/queries';
 import styles from './GenerateCarsButton.module.scss';
 
-export const GenerateCarsButton = () => {
+export const GenerateCarsButton = memo(() => {
   const { mutate, isPending } = useGenerateCars();
 
   const handleClick = () => {
@@ -18,4 +19,4 @@ export const GenerateCarsButton = () => {
       Generate cars
     </Button>
   );
-};
+});

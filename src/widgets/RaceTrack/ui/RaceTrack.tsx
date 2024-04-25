@@ -1,6 +1,4 @@
-import { useCallback } from 'react';
 import { observer } from 'mobx-react-lite';
-import { type ICarDto } from '@/entities/car';
 import { Pagination } from '@/shared/ui/Pagination';
 import { useStore } from '@/shared/lib/store';
 import { getPagesCount } from '@/shared/lib/getPagesCount';
@@ -14,20 +12,9 @@ export const RaceTrack = observer(() => {
     raceTrackStore: { page, limit, setPage, selectCar, resetSelection, selectedCarId },
   } = useStore();
   const { data: { results = [], count = 0 } = {}, isFetched } = useGetCars({ page, limit });
+
   const pagesCount = getPagesCount(count, limit);
   usePageValidation({ isFetched, page, pagesCount, setPage });
-  const handleSelectCar = useCallback(
-    (id: number, body: ICarDto) => {
-      selectCar(id, body);
-    },
-    [selectCar],
-  );
-  const removeCallback = useCallback(
-    (selected: boolean) => {
-      if (selected) resetSelection();
-    },
-    [resetSelection],
-  );
 
   return (
     <div className={styles.wrapper}>
@@ -37,8 +24,8 @@ export const RaceTrack = observer(() => {
             car={car}
             key={car.id}
             selected={selectedCarId === car.id}
-            selectCar={handleSelectCar}
-            removeCallback={removeCallback}
+            selectCar={selectCar}
+            resetSelection={resetSelection}
           />
         ))}
       </ul>
