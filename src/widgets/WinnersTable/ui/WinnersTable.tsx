@@ -1,8 +1,8 @@
-import { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import { getPagesCount } from '@/shared/lib/getPagesCount';
 import { Pagination } from '@/shared/ui/Pagination';
 import { useStore } from '@/shared/lib/store';
+import { usePageValidation } from '@/shared/lib/usePageValidation';
 import { WinnersItem } from './WinnersItem';
 import { WinnersTableHeader } from './WinnersTableHeader';
 import { useGetWinners } from '../lib/queries';
@@ -21,12 +21,7 @@ export const WinnersTable = observer(() => {
   });
 
   const pagesCount = getPagesCount(count, limit);
-
-  useEffect(() => {
-    if (isFetched && page > pagesCount) {
-      setPage(pagesCount);
-    }
-  }, [isFetched, setPage, pagesCount, page]);
+  usePageValidation({ isFetched, page, pagesCount, setPage });
 
   return (
     <div className={styles.wrapper}>

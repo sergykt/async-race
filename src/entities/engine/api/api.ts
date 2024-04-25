@@ -1,8 +1,7 @@
 import { apiInstance } from '@/shared/api/apiInstance';
 import { routes } from '@/shared/api/routes';
-import { type IEngine } from '../model/types';
-import { type IRaceResult, EngineStatus } from './types';
-import { EngineQueryKeys } from './types';
+import { type IRaceResult, EngineQueryKeys } from './types';
+import { type IEngine, EngineStatus } from '../model/types';
 
 const createEngineParams = (id: number, status: EngineStatus) => {
   const params = new URLSearchParams();

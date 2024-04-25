@@ -1,42 +1,33 @@
-import { type FC } from 'react';
-import { observer } from 'mobx-react-lite';
+import { type FC, memo } from 'react';
 import { RemoveCarButton } from '@/features/removeCar';
 import { EngineControls } from '@/features/engineControls';
-import { useStore } from '@/shared/lib/store';
+import { type ICar, type ICarDto } from '@/entities/car';
 import { Button } from '@/shared/ui/Button';
 import CarSvg from '@/shared/assets/svg/car.svg?react';
 import styles from './RaceTrackItem.module.scss';
 
 interface IRaceBoardItemProps {
-  color: string;
-  name: string;
-  id: number;
+  car: ICar;
+  selectCar: (id: number, body: ICarDto) => void;
+  selected: boolean;
+  removeCallback: (selected: boolean) => void;
 }
 
-export const RaceTrackItem: FC<IRaceBoardItemProps> = observer((props) => {
-  const { color, name, id } = props;
+export const RaceTrackItem: FC<IRaceBoardItemProps> = memo((props) => {
   const {
-    raceTrackStore: { selectedCarId, selectCar, resetSelection },
-  } = useStore();
-
-  const deleteCarCallback = () => {
-    if (selectedCarId === id) {
-      resetSelection();
-    }
-  };
+    car: { name, color, id },
+    selectCar,
+    selected,
+    removeCallback,
+  } = props;
 
   return (
     <li className={styles.item}>
       <div className={styles.buttonGroup}>
-        <Button
-          size='small'
-          onClick={() => {
-            selectCar(id, { name, color });
-          }}
-        >
+        <Button size='small' onClick={() => selectCar(id, { color, name })}>
           Select
         </Button>
-        <RemoveCarButton id={id} callback={deleteCarCallback} />
+        <RemoveCarButton id={id} callback={() => removeCallback(selected)} />
       </div>
       <EngineControls id={id} />
       <CarSvg className={styles.car} fill={color} width={70} height={36} />

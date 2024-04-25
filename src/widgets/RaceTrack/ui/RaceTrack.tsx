@@ -1,31 +1,45 @@
-import { useEffect } from 'react';
+import { useCallback } from 'react';
 import { observer } from 'mobx-react-lite';
+import { type ICarDto } from '@/entities/car';
 import { Pagination } from '@/shared/ui/Pagination';
 import { useStore } from '@/shared/lib/store';
 import { getPagesCount } from '@/shared/lib/getPagesCount';
+import { usePageValidation } from '@/shared/lib/usePageValidation';
 import { useGetCars } from '../lib/queries';
 import { RaceTrackItem } from './RaceTrackItem';
 import styles from './RaceTrack.module.scss';
 
 export const RaceTrack = observer(() => {
   const {
-    raceTrackStore: { page, limit, setPage },
+    raceTrackStore: { page, limit, setPage, selectCar, resetSelection, selectedCarId },
   } = useStore();
   const { data: { results = [], count = 0 } = {}, isFetched } = useGetCars({ page, limit });
-
   const pagesCount = getPagesCount(count, limit);
-
-  useEffect(() => {
-    if (isFetched && page > pagesCount) {
-      setPage(pagesCount);
-    }
-  }, [isFetched, setPage, pagesCount, page]);
+  usePageValidation({ isFetched, page, pagesCount, setPage });
+  const handleSelectCar = useCallback(
+    (id: number, body: ICarDto) => {
+      selectCar(id, body);
+    },
+    [selectCar],
+  );
+  const removeCallback = useCallback(
+    (selected: boolean) => {
+      if (selected) resetSelection();
+    },
+    [resetSelection],
+  );
 
   return (
     <div className={styles.wrapper}>
       <ul className={styles.list}>
-        {results.map(({ id, color, name }) => (
-          <RaceTrackItem name={name} color={color} id={id} key={id} />
+        {results.map((car) => (
+          <RaceTrackItem
+            car={car}
+            key={car.id}
+            selected={selectedCarId === car.id}
+            selectCar={handleSelectCar}
+            removeCallback={removeCallback}
+          />
         ))}
       </ul>
       <div className={styles.footer}>

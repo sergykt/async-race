@@ -12,12 +12,12 @@ export const useGetWinners = (props: IWinnersParams) => {
       try {
         const { results, count } = await winnerApi.getWinners(props);
 
-        const extendedResultsPromises = results.map(async (winner) => {
-          const { color, name } = await carApi.getCar(winner.id);
-          return { ...winner, color, name };
-        });
-
-        const extendedResults = await Promise.all(extendedResultsPromises);
+        const extendedResults = await Promise.all(
+          results.map(async (winner) => {
+            const { color, name } = await carApi.getCar(winner.id);
+            return { ...winner, color, name };
+          }),
+        );
 
         return { results: extendedResults, count };
       } catch (err) {
