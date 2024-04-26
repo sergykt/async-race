@@ -1,7 +1,10 @@
-import { useState, useRef, useEffect, type FC, memo } from 'react';
+import { useRef, useEffect, type FC } from 'react';
+import { toJS } from 'mobx';
+import { observer } from 'mobx-react-lite';
 import { IEngineFull, EngineStatus } from '@/entities/engine';
+import { useStore } from '@/shared/lib/store';
 import CarSvg from '@/shared/assets/svg/car.svg?react';
-import { animateWithDuration, carWidth, carHeight, carStartPositionStyle } from '../lib/animation';
+import { animateWithDuration, carWidth, carHeight } from '../lib/animation';
 import styles from './AnimatedCar.module.scss';
 
 interface IAnimatedCarProps {
@@ -10,9 +13,12 @@ interface IAnimatedCarProps {
   id: number;
 }
 
-export const AnimatedCar: FC<IAnimatedCarProps> = memo((props) => {
-  const [carStyle, setCarStyle] = useState<React.CSSProperties>(carStartPositionStyle);
-  const { engine, color } = props;
+export const AnimatedCar: FC<IAnimatedCarProps> = observer((props) => {
+  const {
+    raceTrackStore: { getCarStyle, setCarStyle, resetCarStyle },
+  } = useStore();
+  const { engine, color, id } = props;
+  const carStyle = toJS(getCarStyle(id));
   const stopFn = useRef(() => {});
 
   useEffect(() => {
@@ -23,11 +29,11 @@ export const AnimatedCar: FC<IAnimatedCarProps> = memo((props) => {
     const duration = distance / velocity;
     switch (status) {
       case EngineStatus.STARTED:
-        stopFn.current = animateWithDuration(duration, setCarStyle);
+        stopFn.current = animateWithDuration(duration, (newStyle) => setCarStyle(id, newStyle));
         break;
       case EngineStatus.STOPPED:
         stopFn.current();
-        setCarStyle(carStartPositionStyle);
+        resetCarStyle(id);
         break;
       case EngineStatus.BROKEN:
         stopFn.current();
@@ -35,7 +41,7 @@ export const AnimatedCar: FC<IAnimatedCarProps> = memo((props) => {
       default:
         break;
     }
-  }, [engine]);
+  }, [engine, id, setCarStyle, resetCarStyle]);
 
   return (
     <div className={styles.car} style={carStyle}>

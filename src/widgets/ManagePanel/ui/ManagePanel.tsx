@@ -6,8 +6,9 @@ import { useStore } from '@/shared/lib/store';
 import styles from './ManagePanel.module.scss';
 
 export const ManagePanel = observer(() => {
-  const store = useStore();
-  const { selectedCarId, carValues, resetSelection } = store.raceTrackStore;
+  const {
+    raceTrackStore: { selectedCarId, carValues, resetSelection },
+  } = useStore();
 
   return (
     <div className={styles.panel}>

@@ -21,7 +21,6 @@ export class EngineStore {
   start = async (id: number) => {
     try {
       const engine = await engineApi.start(id);
-
       runInAction(() => {
         this.engines[id] = { ...this.engines[id], ...engine, status: EngineStatus.STARTED };
       });
@@ -39,7 +38,6 @@ export class EngineStore {
   stop = async (id: number) => {
     try {
       const engine = await engineApi.stop(id);
-
       runInAction(() => {
         this.engines[id] = { ...this.engines[id], ...engine, status: EngineStatus.STOPPED };
       });
@@ -57,13 +55,13 @@ export class EngineStore {
   drive = async (id: number) => {
     try {
       await this.start(id);
-      await engineApi.drive(id);
       runInAction(() => {
-        this.engines[id] = { ...this.engines[id], status: EngineStatus.FINISH };
+        this.engines[id] = { ...this.engines[id], status: EngineStatus.DRIVE };
       });
+      await engineApi.drive(id);
     } catch (err) {
       runInAction(() => {
-        if (this.engines[id].status === EngineStatus.STARTED) {
+        if (this.engines[id].status === EngineStatus.DRIVE) {
           this.engines[id] = { ...this.engines[id], status: EngineStatus.BROKEN };
         }
       });
