@@ -28,7 +28,9 @@ export const animateWithDuration = (
   };
 
   const stopAnimation = () => {
-    if (animationFrameId) cancelAnimationFrame(animationFrameId);
+    if (animationFrameId) {
+      cancelAnimationFrame(animationFrameId);
+    }
     animationFrameId = null;
   };
 

@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 import { toJS } from 'mobx';
 import { EngineStatus, type IEngineFull } from '@/entities/engine';
 import CarSvg from '@/shared/assets/svg/car.svg?react';
-import { animateWithDuration, carWidth, carHeight } from '../lib/animation';
+import { animateWithDuration, carWidth, carHeight, carStartPositionStyle } from '../lib/animation';
 import styles from './AnimatedCar.module.scss';
 
 interface IAnimatedCarProps {
@@ -46,8 +46,10 @@ export const AnimatedCar: FC<IAnimatedCarProps> = observer((props) => {
     }
   }, [engine, id, setCarPosition, resetCarPosition]);
 
+  const carStyle = engine?.status === EngineStatus.STOPPED ? carStartPositionStyle : carPosition;
+
   return (
-    <div className={styles.car} style={carPosition}>
+    <div className={styles.car} style={carStyle}>
       <CarSvg fill={color} width={carWidth} height={carHeight} />
     </div>
   );

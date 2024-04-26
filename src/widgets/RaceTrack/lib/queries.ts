@@ -12,5 +12,6 @@ export const useGetCars = (props: ICarParams) => {
       return response;
     },
     placeholderData: keepPreviousData,
+    staleTime: 5000,
   });
 };
