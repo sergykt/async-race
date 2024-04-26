@@ -11,8 +11,9 @@ interface IEngineControlsProps {
 
 export const EngineControls: FC<IEngineControlsProps> = observer(({ id }) => {
   const {
-    engineStore: { enginePosition, drive, stop },
+    engineStore: { getEngineStatus, drive, stop },
   } = useStore();
+  const engineStatus = getEngineStatus(id);
 
   const handleStart = () => {
     drive(id).catch((err) => console.error(err));
@@ -28,9 +29,7 @@ export const EngineControls: FC<IEngineControlsProps> = observer(({ id }) => {
         size='small'
         className={styles.start}
         onClick={handleStart}
-        disabled={
-          enginePosition[id] === EngineStatus.STARTED || enginePosition[id] === EngineStatus.DRIVE
-        }
+        disabled={engineStatus !== EngineStatus.STOPPED}
       >
         A
       </Button>
@@ -38,7 +37,7 @@ export const EngineControls: FC<IEngineControlsProps> = observer(({ id }) => {
         size='small'
         className={styles.stop}
         onClick={handleStop}
-        disabled={!enginePosition[id] || enginePosition[id] === EngineStatus.STOPPED}
+        disabled={engineStatus === EngineStatus.STOPPED}
       >
         B
       </Button>

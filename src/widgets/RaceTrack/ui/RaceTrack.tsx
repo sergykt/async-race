@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Pagination } from '@/shared/ui/Pagination';
 import { useStore } from '@/shared/lib/store';
@@ -10,11 +11,19 @@ import styles from './RaceTrack.module.scss';
 export const RaceTrack = observer(() => {
   const {
     raceTrackStore: { page, limit, setPage, selectCar, resetSelection, selectedCarId },
+    engineStore: { getEngine },
   } = useStore();
   const { data: { results = [], count = 0 } = {}, isFetched } = useGetCars({ page, limit });
 
   const pagesCount = getPagesCount(count, limit);
   usePageValidation({ isFetched, page, pagesCount, setPage });
+
+  const removeCallback = useCallback(
+    (selected: boolean) => {
+      if (selected) resetSelection();
+    },
+    [resetSelection],
+  );
 
   return (
     <div className={styles.wrapper}>
@@ -25,7 +34,8 @@ export const RaceTrack = observer(() => {
             key={car.id}
             selected={selectedCarId === car.id}
             selectCar={selectCar}
-            resetSelection={resetSelection}
+            removeCallback={removeCallback}
+            engine={getEngine(car.id)}
           />
         ))}
       </ul>

@@ -1,27 +1,38 @@
 import { makeAutoObservable, runInAction } from 'mobx';
-import { IEngine, EngineStatus } from './types';
+import { AxiosError } from 'axios';
+import { type IEngineFull, EngineStatus } from './types';
 import { engineApi } from '../api/api';
 
 export class EngineStore {
-  engines: Record<string, IEngine> = {};
-
-  enginePosition: Record<string, EngineStatus> = {};
+  engines: Record<string, IEngineFull> = {};
 
   constructor() {
     makeAutoObservable(this);
   }
 
-  start = async (id: number) => {
-    this.enginePosition[id] = EngineStatus.STARTED;
+  getEngine = (id: number) => {
+    return this.engines[id];
+  };
 
+  getEngineStatus = (id: number) => {
+    return this.engines[id]?.status ?? EngineStatus.STOPPED;
+  };
+
+  start = async (id: number) => {
     try {
       const engine = await engineApi.start(id);
 
       runInAction(() => {
-        this.engines[id] = engine;
+        this.engines[id] = { ...this.engines[id], ...engine, status: EngineStatus.STARTED };
       });
     } catch (err) {
-      this.enginePosition[id] = EngineStatus.STOPPED;
+      runInAction(() => {
+        if (err instanceof AxiosError && err.response?.status === 404) {
+          this.deleteEngine(id);
+        }
+      });
+
+      throw err;
     }
   };
 
@@ -30,16 +41,38 @@ export class EngineStore {
       const engine = await engineApi.stop(id);
 
       runInAction(() => {
-        this.engines[id] = engine;
-        this.enginePosition[id] = EngineStatus.STOPPED;
+        this.engines[id] = { ...this.engines[id], ...engine, status: EngineStatus.STOPPED };
       });
     } catch (err) {
-      console.error(err);
+      runInAction(() => {
+        if (err instanceof AxiosError && err.response?.status === 404) {
+          this.deleteEngine(id);
+        }
+      });
+
+      throw err;
     }
   };
 
   drive = async (id: number) => {
-    await this.start(id);
-    await engineApi.drive(id);
+    try {
+      await this.start(id);
+      await engineApi.drive(id);
+      runInAction(() => {
+        this.engines[id] = { ...this.engines[id], status: EngineStatus.FINISH };
+      });
+    } catch (err) {
+      runInAction(() => {
+        if (this.engines[id].status === EngineStatus.STARTED) {
+          this.engines[id] = { ...this.engines[id], status: EngineStatus.BROKEN };
+        }
+      });
+
+      throw err;
+    }
+  };
+
+  deleteEngine = (id: number) => {
+    delete this.engines[id];
   };
 }
