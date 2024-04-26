@@ -1,39 +1,42 @@
 import { useRef, useEffect, type FC } from 'react';
-import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
-import { IEngineFull, EngineStatus } from '@/entities/engine';
-import { useStore } from '@/shared/lib/store';
+import { toJS } from 'mobx';
+import { EngineStatus, type IEngineFull } from '@/entities/engine';
 import CarSvg from '@/shared/assets/svg/car.svg?react';
 import { animateWithDuration, carWidth, carHeight } from '../lib/animation';
 import styles from './AnimatedCar.module.scss';
 
 interface IAnimatedCarProps {
-  engine: IEngineFull;
-  color: string;
   id: number;
+  color: string;
+  engine: IEngineFull | null;
+  getCarPosition: (id: number) => React.CSSProperties;
+  setCarPosition: (id: number, style: React.CSSProperties) => void;
+  resetCarPosition: (id: number) => void;
 }
 
 export const AnimatedCar: FC<IAnimatedCarProps> = observer((props) => {
-  const {
-    raceTrackStore: { getCarStyle, setCarStyle, resetCarStyle },
-  } = useStore();
-  const { engine, color, id } = props;
-  const carStyle = toJS(getCarStyle(id));
+  const { color, id, engine, getCarPosition, setCarPosition, resetCarPosition } = props;
+  const carPosition = toJS(getCarPosition(id));
   const stopFn = useRef(() => {});
 
   useEffect(() => {
     if (!engine) {
       return;
     }
+
     const { status, velocity, distance } = engine;
     const duration = distance / velocity;
+
     switch (status) {
       case EngineStatus.STARTED:
-        stopFn.current = animateWithDuration(duration, (newStyle) => setCarStyle(id, newStyle));
+        stopFn.current = animateWithDuration(duration, (newPosition) =>
+          setCarPosition(id, newPosition),
+        );
         break;
       case EngineStatus.STOPPED:
         stopFn.current();
-        resetCarStyle(id);
+        resetCarPosition(id);
         break;
       case EngineStatus.BROKEN:
         stopFn.current();
@@ -41,10 +44,10 @@ export const AnimatedCar: FC<IAnimatedCarProps> = observer((props) => {
       default:
         break;
     }
-  }, [engine, id, setCarStyle, resetCarStyle]);
+  }, [engine, id, setCarPosition, resetCarPosition]);
 
   return (
-    <div className={styles.car} style={carStyle}>
+    <div className={styles.car} style={carPosition}>
       <CarSvg fill={color} width={carWidth} height={carHeight} />
     </div>
   );

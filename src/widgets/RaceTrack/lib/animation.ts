@@ -10,7 +10,7 @@ export const carStartPositionStyle: React.CSSProperties = {
 
 export const animateWithDuration = (
   duration: number,
-  callback: (newStyle: React.CSSProperties) => void,
+  callback: (newPosition: React.CSSProperties) => void,
 ) => {
   const startTime = performance.now();
   let animationFrameId: number | null = null;

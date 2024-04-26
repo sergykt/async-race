@@ -11,7 +11,7 @@ export class EngineStore {
   }
 
   getEngine = (id: number) => {
-    return this.engines[id];
+    return this.engines[id] ?? null;
   };
 
   getEngineStatus = (id: number) => {
