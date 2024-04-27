@@ -8,7 +8,6 @@ export enum EngineStatus {
   STOPPED = 'stopped',
   DRIVE = 'drive',
   BROKEN = 'broken',
-  FINISH = 'finish',
 }
 
 export interface IEngineFull extends IEngine {

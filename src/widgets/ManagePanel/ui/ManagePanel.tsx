@@ -7,7 +7,7 @@ import styles from './ManagePanel.module.scss';
 
 export const ManagePanel = observer(() => {
   const {
-    managaPanelStore: { selectedCarId, carValues, resetSelection },
+    managePanelStore: { selectedCarId, carValues, resetSelection },
   } = useStore();
 
   return (

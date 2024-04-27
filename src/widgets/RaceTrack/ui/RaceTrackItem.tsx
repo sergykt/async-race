@@ -1,58 +1,40 @@
-import { type FC, memo } from 'react';
+import { type FC, useCallback, memo } from 'react';
+import { AnimatedCar } from '@/features/carAnimation';
 import { RemoveCarButton } from '@/features/removeCar';
 import { EngineControls } from '@/features/engineControls';
-import { IEngineFull } from '@/entities/engine';
-import { type ICarDto, type ICar } from '@/entities/car';
+import { type ICar } from '@/entities/car';
 import { Button } from '@/shared/ui/Button';
 import styles from './RaceTrackItem.module.scss';
-import { AnimatedCar } from './AnimatedCar';
 
 interface IRaceBoardItemProps {
   car: ICar;
-  selectCar: (id: number, values: ICarDto) => void;
-  resetSelection: () => void;
   selected: boolean;
-  engine: IEngineFull | null;
-  getCarPosition: (id: number) => React.CSSProperties;
-  setCarPosition: (id: number, style: React.CSSProperties) => void;
-  resetCarPosition: (id: number) => void;
+  selectCar: (id: number, car: ICar) => void;
+  resetSelection: () => void;
 }
 
 export const RaceTrackItem: FC<IRaceBoardItemProps> = memo((props) => {
-  const {
-    car: { name, color, id },
-    selectCar,
-    resetSelection,
-    selected,
-    engine,
-    getCarPosition,
-    resetCarPosition,
-    setCarPosition,
-  } = props;
+  const { car, selected, selectCar, resetSelection } = props;
+  const { id, name, color } = car;
 
-  const removeCallback = () => {
+  const selectCarCallback = useCallback(() => selectCar(id, car), [id, car, selectCar]);
+
+  const removeCallback = useCallback(() => {
     if (selected) {
       resetSelection();
     }
-  };
+  }, [selected, resetSelection]);
 
   return (
     <li className={styles.item}>
       <div className={styles.buttonGroup}>
-        <Button size='small' onClick={() => selectCar(id, { color, name })}>
+        <Button size='small' onClick={selectCarCallback}>
           Select
         </Button>
         <RemoveCarButton id={id} callback={removeCallback} />
       </div>
       <EngineControls id={id} />
-      <AnimatedCar
-        id={id}
-        color={color}
-        engine={engine}
-        getCarPosition={getCarPosition}
-        setCarPosition={setCarPosition}
-        resetCarPosition={resetCarPosition}
-      />
+      <AnimatedCar id={id} color={color} width={70} height={36} leftPadding={120} />
       <p className={styles.name}>{name}</p>
     </li>
   );

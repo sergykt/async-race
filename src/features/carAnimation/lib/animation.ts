@@ -1,15 +1,6 @@
-export const carHeight = 36;
-export const carWidth = 70;
-export const carLeftPadding = 120;
-export const carRightPosition = carLeftPadding + carWidth;
-
-export const carStartPositionStyle: React.CSSProperties = {
-  right: `calc(100% - ${carRightPosition}px)`,
-  transition: 'right 0.3s ease',
-};
-
 export const animateWithDuration = (
   duration: number,
+  startPosition: number,
   callback: (newPosition: React.CSSProperties) => void,
 ) => {
   const startTime = performance.now();
@@ -19,7 +10,7 @@ export const animateWithDuration = (
     let timeFraction = (time - startTime) / duration;
     if (timeFraction > 1) timeFraction = 1;
 
-    const rightPosition = `calc((100% - ${carRightPosition}px) * (1 - ${timeFraction}))`;
+    const rightPosition = `calc((100% - ${startPosition}px) * (1 - ${timeFraction}))`;
     callback({ right: rightPosition });
 
     if (timeFraction < 1) {

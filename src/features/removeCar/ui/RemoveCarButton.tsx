@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import { type FC, memo } from 'react';
 import { Button } from '@/shared/ui/Button';
 import { useRemoveCar } from '../lib/queries';
 import styles from './RemoveCarButton.module.scss';
@@ -8,7 +8,7 @@ interface IDeleteCarButtonProps {
   callback?: () => void;
 }
 
-export const RemoveCarButton: FC<IDeleteCarButtonProps> = (props) => {
+export const RemoveCarButton: FC<IDeleteCarButtonProps> = memo((props) => {
   const { id, callback = () => {} } = props;
   const { mutate, isPending } = useRemoveCar();
 
@@ -26,4 +26,4 @@ export const RemoveCarButton: FC<IDeleteCarButtonProps> = (props) => {
       Remove
     </Button>
   );
-};
+});

@@ -9,10 +9,10 @@ import styles from './RaceTrack.module.scss';
 
 export const RaceTrack = observer(() => {
   const {
-    raceTrackStore: { page, limit, setPage, getCarPosition, resetCarPosition, setCarPosition },
-    engineStore: { getEngine },
-    managaPanelStore: { resetSelection, selectCar, selectedCarId },
+    raceTrackStore: { page, limit, setPage },
+    managePanelStore: { selectedCarId, selectCar, resetSelection },
   } = useStore();
+
   const { data: { results = [], count = 0 } = {}, isFetched } = useGetCars({ page, limit });
 
   const pagesCount = getPagesCount(count, limit);
@@ -24,14 +24,10 @@ export const RaceTrack = observer(() => {
         {results.map((car) => (
           <RaceTrackItem
             car={car}
-            key={car.id}
-            engine={getEngine(car.id)}
             selected={selectedCarId === car.id}
             selectCar={selectCar}
             resetSelection={resetSelection}
-            getCarPosition={getCarPosition}
-            setCarPosition={setCarPosition}
-            resetCarPosition={resetCarPosition}
+            key={car.id}
           />
         ))}
       </ul>

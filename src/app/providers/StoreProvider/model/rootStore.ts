@@ -1,12 +1,15 @@
+import { AnimatedCarStore } from '@/features/carAnimation';
 import { EngineStore } from '@/entities/engine';
 import { RaceTrackStore } from '@/widgets/RaceTrack';
-import { WinnersTableStore } from '@/widgets/WinnersTable';
 import { ManagePanelStore } from '@/widgets/ManagePanel';
+import { WinnersTableStore } from '@/widgets/WinnersTable';
 
 export class RootStore {
+  animatedCarStore = new AnimatedCarStore();
+
   engineStore = new EngineStore();
 
-  managaPanelStore = new ManagePanelStore();
+  managePanelStore = new ManagePanelStore();
 
   raceTrackStore = new RaceTrackStore();
 
