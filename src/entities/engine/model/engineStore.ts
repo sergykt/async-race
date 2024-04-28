@@ -24,11 +24,19 @@ export class EngineStore {
     this.selectedEngines = ids;
   };
 
+  get enginesReady() {
+    const engineStatuses = this.selectedEngines.map((id) => this.getEngineStatus(id));
+
+    return engineStatuses.every((status) => status === EngineStatus.STOPPED);
+  }
+
   start = async (id: number) => {
     try {
       this.updateEngineStatus(id, EngineStatus.PENDING);
       const engine = await engineApi.start(id);
       this.updateEngine(id, engine, EngineStatus.STARTED);
+
+      return engine;
     } catch (err) {
       runInAction(() => {
         if (err instanceof AxiosError && err.response?.status === 404) {
@@ -47,6 +55,8 @@ export class EngineStore {
     try {
       const engine = await engineApi.stop(id);
       this.updateEngine(id, engine, EngineStatus.STOPPED);
+
+      return engine;
     } catch (err) {
       runInAction(() => {
         if (err instanceof AxiosError && err.response?.status === 404) {
@@ -62,11 +72,12 @@ export class EngineStore {
 
   drive = async (id: number) => {
     try {
-      await this.start(id);
+      const { velocity, distance } = await this.start(id);
+      const time = parseFloat((distance / velocity / 1000).toFixed(3));
       this.updateEngineStatus(id, EngineStatus.DRIVE);
       await engineApi.drive(id);
 
-      return id;
+      return { id, time };
     } catch (err) {
       if (this.engines[id].status === EngineStatus.DRIVE) {
         this.updateEngineStatus(id, EngineStatus.BROKEN);
@@ -78,13 +89,9 @@ export class EngineStore {
 
   startRace = async () => {
     const startPromises = this.selectedEngines.map((id) => this.drive(id));
-    const winnerId = await Promise.any(startPromises);
-    const winnerEngine = this.getEngine(winnerId);
-    const winnerTime = parseFloat(
-      (winnerEngine.distance / winnerEngine.velocity / 1000).toFixed(3),
-    );
+    const winner = await Promise.any(startPromises);
 
-    return { id: winnerId, newTime: winnerTime };
+    return winner;
   };
 
   resetRace = async () => {

@@ -3,22 +3,22 @@ import { winnerApi } from '@/entities/winner';
 
 interface IUseCreateWinnerProps {
   id: number;
-  newTime: number;
+  time: number;
 }
 
 export const useCreateWinner = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (props: IUseCreateWinnerProps) => {
-      const { id, newTime } = props;
+      const { id, time } = props;
       const winner = await winnerApi.getWinner(id);
 
       if (winner) {
-        const { wins, time } = winner;
-        const updateTime = newTime < time ? newTime : time;
+        const { wins, time: prevTime } = winner;
+        const updateTime = time < prevTime ? time : prevTime;
         await winnerApi.update(id, { wins: wins + 1, time: updateTime });
       } else {
-        await winnerApi.create({ id, wins: 1, time: newTime });
+        await winnerApi.create({ id, wins: 1, time });
       }
     },
     onSuccess: async () => {

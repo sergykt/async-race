@@ -9,7 +9,7 @@ import styles from './RaceControls.module.scss';
 
 export const RaceControls: FC = observer(() => {
   const {
-    engineStore: { startRace, resetRace },
+    engineStore: { startRace, resetRace, enginesReady },
   } = useStore();
 
   const { mutate } = useCreateWinner();
@@ -28,10 +28,10 @@ export const RaceControls: FC = observer(() => {
 
   return (
     <div className={styles.raceControls}>
-      <Button className={styles.race} onClick={handleStartRace}>
+      <Button className={styles.race} onClick={handleStartRace} disabled={!enginesReady}>
         Race <IoPlayOutline />
       </Button>
-      <Button className={styles.reset} onClick={handleReset}>
+      <Button className={styles.reset} onClick={handleReset} disabled={enginesReady}>
         Reset <RxReset />
       </Button>
     </div>
