@@ -4,6 +4,7 @@ import { IoPlayOutline } from 'react-icons/io5';
 import { RxReset } from 'react-icons/rx';
 import { Button } from '@/shared/ui/Button';
 import { useStore } from '@/shared/lib/store';
+import { useCreateWinner } from '../lib/queries';
 import styles from './RaceControls.module.scss';
 
 export const RaceControls: FC = observer(() => {
@@ -11,8 +12,14 @@ export const RaceControls: FC = observer(() => {
     engineStore: { startRace, resetRace },
   } = useStore();
 
+  const { mutate } = useCreateWinner();
+
   const handleStartRace = () => {
-    startRace().catch((err) => console.error(err));
+    startRace()
+      .then((winner) => {
+        mutate(winner);
+      })
+      .catch((err) => console.error(err));
   };
 
   const handleReset = () => {

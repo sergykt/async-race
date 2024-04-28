@@ -13,7 +13,7 @@ export class EngineStore {
   }
 
   getEngine = (id: number) => {
-    return this.engines[id] ?? null;
+    return this.engines[id];
   };
 
   getEngineStatus = (id: number) => {
@@ -45,7 +45,6 @@ export class EngineStore {
   stop = async (id: number) => {
     const prevStatus = this.getEngineStatus(id);
     try {
-      this.updateEngineStatus(id, EngineStatus.PENDING);
       const engine = await engineApi.stop(id);
       this.updateEngine(id, engine, EngineStatus.STOPPED);
     } catch (err) {
@@ -66,6 +65,8 @@ export class EngineStore {
       await this.start(id);
       this.updateEngineStatus(id, EngineStatus.DRIVE);
       await engineApi.drive(id);
+
+      return id;
     } catch (err) {
       if (this.engines[id].status === EngineStatus.DRIVE) {
         this.updateEngineStatus(id, EngineStatus.BROKEN);
@@ -76,21 +77,19 @@ export class EngineStore {
   };
 
   startRace = async () => {
-    try {
-      const startSelectedEngines = this.selectedEngines.map((id) => this.drive(id));
-      await Promise.all(startSelectedEngines);
-    } catch (err) {
-      console.error(err);
-    }
+    const startPromises = this.selectedEngines.map((id) => this.drive(id));
+    const winnerId = await Promise.any(startPromises);
+    const winnerEngine = this.getEngine(winnerId);
+    const winnerTime = parseFloat(
+      (winnerEngine.distance / winnerEngine.velocity / 1000).toFixed(3),
+    );
+
+    return { id: winnerId, newTime: winnerTime };
   };
 
   resetRace = async () => {
-    try {
-      const resetSelectedEngines = this.selectedEngines.map((id) => this.stop(id));
-      await Promise.all(resetSelectedEngines);
-    } catch (err) {
-      console.error(err);
-    }
+    const resetSelectedEngines = this.selectedEngines.map((id) => this.stop(id));
+    await Promise.all(resetSelectedEngines);
   };
 
   private deleteEngine = (id: number) => {

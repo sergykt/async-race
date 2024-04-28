@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { apiInstance } from '@/shared/api/apiInstance';
 import { routes } from '@/shared/api/routes';
 import { PageQueryKeys, OrderQueryKeys } from '@/shared/const/QueryParams';
@@ -17,8 +18,16 @@ const createWinnersParams = (props: IWinnersParams) => {
 
 export const winnerApi = {
   getWinner: async (id: number) => {
-    const response = await apiInstance.get<IWinner>(routes.winnersPath(id));
-    return response.data;
+    try {
+      const response = await apiInstance.get<IWinner>(routes.winnersPath(id));
+      return response.data;
+    } catch (err) {
+      if (err instanceof AxiosError && err.response?.status === 404) {
+        return null;
+      }
+
+      throw err;
+    }
   },
   getWinners: async (props: IWinnersParams) => {
     const params = createWinnersParams(props);
