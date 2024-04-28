@@ -10,7 +10,7 @@ export class AnimatedCarStore {
   }
 
   getCarPosition = (id: number) => {
-    return this.carPositions[id] ?? null;
+    return this.carPositions[id];
   };
 
   setCarPosition = (id: number, position: React.CSSProperties) => {

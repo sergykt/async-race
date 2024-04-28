@@ -22,16 +22,17 @@ export const useAnimation = (props: IUseAnimationProps) => {
     const stopFn = getStopFn(id);
     const { status, velocity, distance } = engine;
     const duration = distance / velocity;
+    const animationCallback = (position: React.CSSProperties) => setCarPosition(id, position);
 
     switch (status) {
       case EngineStatus.STARTED:
-        setStopFn(
-          id,
-          animateWithDuration(duration, startPosition, (position) => setCarPosition(id, position)),
-        );
+        setStopFn(id, animateWithDuration(duration, startPosition, animationCallback));
         break;
       case EngineStatus.STOPPED:
         stopFn();
+        setCarPosition(id, {
+          right: `calc(100% - ${startPosition}px)`,
+        });
         break;
       case EngineStatus.BROKEN:
         stopFn();

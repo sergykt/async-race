@@ -11,7 +11,7 @@ export const animateWithDuration = (
     if (timeFraction > 1) timeFraction = 1;
 
     const rightPosition = `calc((100% - ${startPosition}px) * (1 - ${timeFraction}))`;
-    callback({ right: rightPosition });
+    callback({ right: rightPosition, transition: 'none' });
 
     if (timeFraction < 1) {
       animationFrameId = requestAnimationFrame(animate);

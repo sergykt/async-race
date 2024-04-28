@@ -29,7 +29,7 @@ export const EngineControls: FC<IEngineControlsProps> = observer(({ id }) => {
         size='small'
         className={styles.start}
         onClick={handleStart}
-        disabled={engineStatus !== EngineStatus.STOPPED}
+        disabled={engineStatus === EngineStatus.PENDING || engineStatus !== EngineStatus.STOPPED}
       >
         A
       </Button>
@@ -37,7 +37,7 @@ export const EngineControls: FC<IEngineControlsProps> = observer(({ id }) => {
         size='small'
         className={styles.stop}
         onClick={handleStop}
-        disabled={engineStatus === EngineStatus.STOPPED}
+        disabled={engineStatus === EngineStatus.PENDING || engineStatus === EngineStatus.STOPPED}
       >
         B
       </Button>

@@ -20,12 +20,15 @@ export class EngineStore {
 
   start = async (id: number) => {
     try {
+      this.updateEngineStatus(id, EngineStatus.PENDING);
       const engine = await engineApi.start(id);
       this.updateEngine(id, engine, EngineStatus.STARTED);
     } catch (err) {
       runInAction(() => {
         if (err instanceof AxiosError && err.response?.status === 404) {
           this.deleteEngine(id);
+        } else {
+          this.updateEngineStatus(id, EngineStatus.STOPPED);
         }
       });
 
@@ -34,13 +37,17 @@ export class EngineStore {
   };
 
   stop = async (id: number) => {
+    const prevStatus = this.getEngineStatus(id);
     try {
+      this.updateEngineStatus(id, EngineStatus.PENDING);
       const engine = await engineApi.stop(id);
       this.updateEngine(id, engine, EngineStatus.STOPPED);
     } catch (err) {
       runInAction(() => {
         if (err instanceof AxiosError && err.response?.status === 404) {
           this.deleteEngine(id);
+        } else {
+          this.updateEngineStatus(id, prevStatus);
         }
       });
 
