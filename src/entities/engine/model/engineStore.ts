@@ -6,6 +6,8 @@ import { engineApi } from '../api/api';
 export class EngineStore {
   engines: Record<string, IEngineFull> = {};
 
+  selectedEngines: number[] = [];
+
   constructor() {
     makeAutoObservable(this);
   }
@@ -16,6 +18,10 @@ export class EngineStore {
 
   getEngineStatus = (id: number) => {
     return this.engines[id]?.status ?? EngineStatus.STOPPED;
+  };
+
+  setSelectedEngines = (ids: number[]) => {
+    this.selectedEngines = ids;
   };
 
   start = async (id: number) => {
@@ -66,6 +72,24 @@ export class EngineStore {
       }
 
       throw err;
+    }
+  };
+
+  startRace = async () => {
+    try {
+      const startSelectedEngines = this.selectedEngines.map((id) => this.drive(id));
+      await Promise.all(startSelectedEngines);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  resetRace = async () => {
+    try {
+      const resetSelectedEngines = this.selectedEngines.map((id) => this.stop(id));
+      await Promise.all(resetSelectedEngines);
+    } catch (err) {
+      console.error(err);
     }
   };
 

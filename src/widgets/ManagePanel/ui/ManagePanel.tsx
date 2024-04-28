@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import { CreateCarForm } from '@/features/createCar';
 import { UpdateCarForm } from '@/features/updateCar';
+import { RaceControls } from '@/features/raceControls';
 import { GenerateCarsButton } from '@/features/generateCars';
 import { useStore } from '@/shared/lib/store';
 import styles from './ManagePanel.module.scss';
@@ -12,6 +13,7 @@ export const ManagePanel = observer(() => {
 
   return (
     <div className={styles.panel}>
+      <RaceControls />
       <CreateCarForm />
       <UpdateCarForm
         id={selectedCarId}

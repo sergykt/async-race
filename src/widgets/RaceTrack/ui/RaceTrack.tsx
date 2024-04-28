@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Pagination } from '@/shared/ui/Pagination';
 import { useStore } from '@/shared/lib/store';
@@ -11,12 +12,19 @@ export const RaceTrack = observer(() => {
   const {
     raceTrackStore: { page, limit, setPage },
     managePanelStore: { selectedCarId, selectCar, resetSelection },
+    engineStore: { setSelectedEngines },
   } = useStore();
 
   const { data: { results = [], count = 0 } = {}, isFetched } = useGetCars({ page, limit });
 
   const pagesCount = getPagesCount(count, limit);
   usePageValidation({ isFetched, page, pagesCount, setPage });
+
+  const carIds = results.map((car) => car.id);
+
+  useEffect(() => {
+    setSelectedEngines(carIds);
+  }, [carIds, setSelectedEngines]);
 
   return (
     <div className={styles.wrapper}>

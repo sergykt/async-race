@@ -1,0 +1,20 @@
+.raceControls {
+  display: flex;
+  gap: 8px;
+}
+
+.race {
+  color: var(--green);
+  border-color: var(--green);
+}
+
+.reset {
+  color: var(--yellow);
+  border-color: var(--yellow);
+}
+
+.start:disabled,
+.stop:disabled {
+  color: var(--light-grey);
+  border-color: var(--light-grey);
+}
