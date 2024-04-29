@@ -3,7 +3,7 @@
   display: flex;
   align-items: center;
   border-bottom: 2px solid var(--white);
-  padding: 8px 95px 8px 0;
+  padding: 8px 0;
   gap: 8px;
 
   &:first-child {
@@ -17,7 +17,7 @@
   opacity: 0.7;
   text-transform: uppercase;
   margin: 0;
-  padding: 0 8px 0 130px;
+  padding: 0 8px 0 124px;
   letter-spacing: 0.25ch;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -27,4 +27,12 @@
   display: flex;
   gap: 8px;
   flex-direction: column;
+}
+
+.track {
+  position: relative;
+  width: 100%;
+  margin-left: 8px;
+  display: flex;
+  align-items: center;
 }

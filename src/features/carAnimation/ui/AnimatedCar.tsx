@@ -11,19 +11,17 @@ interface IAnimatedCarProps {
   color: string;
   width: number;
   height: number;
-  leftPadding: number;
 }
 
 export const AnimatedCar: FC<IAnimatedCarProps> = observer((props) => {
-  const { id, color, width, height, leftPadding } = props;
+  const { id, color, width, height } = props;
   const {
     animatedCarStore: { getCarPosition, setCarPosition, getStopFn, setStopFn },
     engineStore: { getEngine },
   } = useStore();
 
-  const startPosition = leftPadding + width;
   const defaultStyle = {
-    right: `calc(100% - ${startPosition}px)`,
+    right: `calc(100% - ${width}px)`,
   };
 
   const carPosition = toJS(getCarPosition(id)) ?? defaultStyle;
@@ -35,7 +33,7 @@ export const AnimatedCar: FC<IAnimatedCarProps> = observer((props) => {
     setCarPosition,
     setStopFn,
     getStopFn,
-    startPosition,
+    startPosition: width,
   });
 
   return (

@@ -34,8 +34,10 @@ export const RaceTrackItem: FC<IRaceBoardItemProps> = memo((props) => {
         <RemoveCarButton id={id} callback={removeCallback} />
       </div>
       <EngineControls id={id} />
-      <AnimatedCar id={id} color={color} width={70} height={36} leftPadding={120} />
-      <p className={styles.name}>{name}</p>
+      <div className={styles.track}>
+        <p className={styles.name}>{name}</p>
+        <AnimatedCar id={id} color={color} width={70} height={36} />
+      </div>
     </li>
   );
 });
