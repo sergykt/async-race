@@ -13,8 +13,8 @@
   border-color: var(--yellow);
 }
 
-.start:disabled,
-.stop:disabled {
+.race:disabled,
+.reset:disabled {
   color: var(--light-grey);
   border-color: var(--light-grey);
 }

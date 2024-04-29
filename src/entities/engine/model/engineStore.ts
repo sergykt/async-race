@@ -51,7 +51,6 @@ export class EngineStore {
   };
 
   stop = async (id: number) => {
-    const prevStatus = this.getEngineStatus(id);
     try {
       const engine = await engineApi.stop(id);
       this.updateEngine(id, engine, EngineStatus.STOPPED);
@@ -61,8 +60,6 @@ export class EngineStore {
       runInAction(() => {
         if (err instanceof AxiosError && err.response?.status === 404) {
           this.deleteEngine(id);
-        } else {
-          this.updateEngineStatus(id, prevStatus);
         }
       });
 

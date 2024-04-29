@@ -1,0 +1,47 @@
+body:has(.modalLayout) {
+  overflow: hidden;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.modalLayout {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  width: 100%;
+  height: 100%;
+  background-color: #0006;
+  overflow-x: auto;
+  animation: fade-in 0.3s linear forwards;
+}
+
+.wrapper {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.frame {
+  background-color: var(--modal-bg);
+  padding: 10px;
+  border-radius: 16px;
+  border: 2px solid var(--white);
+  box-shadow:
+    0 0 2px 2px var(--purple),
+    inset 0 0 2px 2px var(--purple);
+  overflow: hidden;
+  min-width: min(100%, 400px);
+}

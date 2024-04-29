@@ -1,7 +1,7 @@
 import { useQueryClient, useMutation } from '@tanstack/react-query';
 import { winnerApi } from '@/entities/winner';
 
-interface IUseCreateWinnerProps {
+export interface IRaceWinnerSchema {
   id: number;
   time: number;
 }
@@ -9,7 +9,7 @@ interface IUseCreateWinnerProps {
 export const useCreateWinner = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (props: IUseCreateWinnerProps) => {
+    mutationFn: async (props: IRaceWinnerSchema) => {
       const { id, time } = props;
       const winner = await winnerApi.getWinner(id);
 
