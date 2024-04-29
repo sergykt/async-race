@@ -5,7 +5,7 @@ import { makeAutoObservable } from 'mobx';
 export class WinnersTableStore {
   page = 1;
 
-  limit = 7;
+  limit = 10;
 
   sort = WinnersSortBy.TIME;
 
