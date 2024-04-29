@@ -1,5 +1,7 @@
 # Async Race
 
+## Description
+
 This project implements a simple game where users can create, edit, and delete cars, as well as participate in races.
 
 Each action triggers a server request, which is then analyzed for a response, and the game logic is executed accordingly.
