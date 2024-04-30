@@ -25,7 +25,7 @@ export const useAnimation = (props: IUseAnimationProps) => {
     const animationCallback = (position: React.CSSProperties) => setCarPosition(id, position);
 
     switch (status) {
-      case EngineStatus.DRIVE:
+      case EngineStatus.STARTED:
         setStopFn(id, animateWithDuration(duration, startPosition, animationCallback));
         break;
       case EngineStatus.STOPPED:

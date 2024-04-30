@@ -32,9 +32,9 @@ export class EngineStore {
 
   start = async (id: number) => {
     try {
-      this.updateEngineStatus(id, EngineStatus.STARTED);
+      this.updateEngineStatus(id, EngineStatus.PENDING);
       const engine = await engineApi.start(id);
-      this.updateEngine(id, engine, EngineStatus.STARTED);
+      this.updateEngine(id, engine, EngineStatus.PENDING);
 
       return engine;
     } catch (err) {
@@ -69,7 +69,8 @@ export class EngineStore {
 
   drive = async (id: number) => {
     try {
-      this.updateEngineStatus(id, EngineStatus.DRIVE);
+      this.updateEngineStatus(id, EngineStatus.STARTED);
+      setTimeout(() => this.updateEngineStatus(id, EngineStatus.DRIVE));
       const { velocity, distance } = this.getEngine(id);
       const time = parseFloat((distance / velocity / 1000).toFixed(3));
       await engineApi.drive(id);
