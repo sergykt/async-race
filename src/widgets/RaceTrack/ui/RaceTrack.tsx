@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
+import { EngineStatus } from '@/entities/engine';
 import { Pagination } from '@/shared/ui/Pagination';
 import { useStore } from '@/shared/lib/store';
 import { getPagesCount } from '@/shared/lib/getPagesCount';
@@ -12,7 +13,7 @@ export const RaceTrack = observer(() => {
   const {
     raceTrackStore: { page, limit, setPage },
     managePanelStore: { selectedCarId, selectCar, resetSelection },
-    engineStore: { setSelectedEngines },
+    engineStore: { setSelectedEngines, getEngineStatus },
   } = useStore();
 
   const { data: { results = [], count = 0 } = {}, isFetched } = useGetCars({ page, limit });
@@ -35,6 +36,7 @@ export const RaceTrack = observer(() => {
             selected={selectedCarId === car.id}
             selectCar={selectCar}
             resetSelection={resetSelection}
+            broken={getEngineStatus(car.id) === EngineStatus.BROKEN}
             key={car.id}
           />
         ))}

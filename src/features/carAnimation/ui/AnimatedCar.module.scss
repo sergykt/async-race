@@ -1,6 +1,7 @@
 .car {
   position: absolute;
   transition: right 0.3s ease;
+  z-index: 99;
 
   svg {
     vertical-align: middle;

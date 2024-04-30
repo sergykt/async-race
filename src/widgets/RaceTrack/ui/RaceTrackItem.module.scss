@@ -40,3 +40,12 @@
   gap: 8px;
   flex-direction: column;
 }
+
+.broken {
+  position: absolute;
+  z-index: 100;
+  left: 0;
+  width: 36px;
+  height: 36px;
+  fill: var(--red);
+}

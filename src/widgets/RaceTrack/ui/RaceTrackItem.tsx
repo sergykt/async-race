@@ -1,4 +1,5 @@
 import { type FC, useCallback, memo } from 'react';
+import { BsSignStop } from 'react-icons/bs';
 import { AnimatedCar } from '@/features/carAnimation';
 import { RemoveCarButton } from '@/features/removeCar';
 import { EngineControls } from '@/features/engineControls';
@@ -11,10 +12,11 @@ interface IRaceBoardItemProps {
   selected: boolean;
   selectCar: (id: number, car: ICar) => void;
   resetSelection: () => void;
+  broken: boolean;
 }
 
 export const RaceTrackItem: FC<IRaceBoardItemProps> = memo((props) => {
-  const { car, selected, selectCar, resetSelection } = props;
+  const { car, selected, selectCar, resetSelection, broken } = props;
   const { id, name, color } = car;
 
   const selectCarCallback = useCallback(() => selectCar(id, car), [id, car, selectCar]);
@@ -37,6 +39,7 @@ export const RaceTrackItem: FC<IRaceBoardItemProps> = memo((props) => {
       <div className={styles.track}>
         <p className={styles.name}>{name}</p>
         <AnimatedCar id={id} color={color} width={70} height={36} />
+        {broken && <BsSignStop className={styles.broken} />}
       </div>
     </li>
   );
