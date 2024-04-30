@@ -19,16 +19,16 @@ export const RaceControls: FC = observer(() => {
   const {
     engineStore: { startRace, resetRace, enginesReady },
   } = useStore();
-  const { mutate } = useCreateWinner();
+  const { mutateAsync } = useCreateWinner();
   const { open, close, isOpen } = useModal();
   const [raceWinner, setRaceWinner] = useState<IRaceWinner | null>(null);
 
   const handleStartRace = async () => {
     const winner = await startRace();
     const winnerCar = await carApi.getCar(winner.id);
-    mutate(winner);
     setRaceWinner({ name: winnerCar.name, time: winner.time });
     open();
+    await mutateAsync(winner);
   };
 
   const handleStartRaceSync = () => {

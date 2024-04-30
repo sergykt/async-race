@@ -32,7 +32,7 @@ export class EngineStore {
 
   start = async (id: number) => {
     try {
-      this.updateEngineStatus(id, EngineStatus.PENDING);
+      this.updateEngineStatus(id, EngineStatus.STARTED);
       const engine = await engineApi.start(id);
       this.updateEngine(id, engine, EngineStatus.STARTED);
 
@@ -69,9 +69,9 @@ export class EngineStore {
 
   drive = async (id: number) => {
     try {
-      const { velocity, distance } = await this.start(id);
-      const time = parseFloat((distance / velocity / 1000).toFixed(3));
       this.updateEngineStatus(id, EngineStatus.DRIVE);
+      const { velocity, distance } = this.getEngine(id);
+      const time = parseFloat((distance / velocity / 1000).toFixed(3));
       await engineApi.drive(id);
 
       return { id, time };
@@ -84,9 +84,15 @@ export class EngineStore {
     }
   };
 
+  startCar = async (id: number) => {
+    await this.start(id);
+    await this.drive(id);
+  };
+
   startRace = async () => {
-    const startPromises = this.selectedEngines.map((id) => this.drive(id));
-    const winner = await Promise.any(startPromises);
+    await Promise.all(this.selectedEngines.map((id) => this.start(id)));
+    const drivePromises = this.selectedEngines.map((id) => this.drive(id));
+    const winner = await Promise.any(drivePromises);
 
     return winner;
   };

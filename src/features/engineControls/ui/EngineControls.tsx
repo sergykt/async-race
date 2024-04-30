@@ -11,12 +11,12 @@ interface IEngineControlsProps {
 
 export const EngineControls: FC<IEngineControlsProps> = observer(({ id }) => {
   const {
-    engineStore: { getEngineStatus, drive, stop },
+    engineStore: { getEngineStatus, startCar, stop },
   } = useStore();
   const engineStatus = getEngineStatus(id);
 
   const handleStart = () => {
-    drive(id).catch((err) => console.error(err));
+    startCar(id).catch((err) => console.error(err));
   };
 
   const handleStop = () => {
@@ -29,7 +29,7 @@ export const EngineControls: FC<IEngineControlsProps> = observer(({ id }) => {
         size='small'
         className={styles.start}
         onClick={handleStart}
-        disabled={engineStatus === EngineStatus.PENDING || engineStatus !== EngineStatus.STOPPED}
+        disabled={engineStatus !== EngineStatus.STOPPED}
       >
         A
       </Button>
