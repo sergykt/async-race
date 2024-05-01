@@ -12,7 +12,7 @@ import styles from './RaceTrack.module.scss';
 export const RaceTrack = observer(() => {
   const {
     raceTrackStore: { page, limit, setPage },
-    managePanelStore: { selectedCarId, selectCar, resetSelection },
+    managePanelStore: { selectedCarId, selectCar, resetUpdateForm },
     engineStore: { setSelectedEngines, getEngineStatus },
   } = useStore();
 
@@ -35,7 +35,7 @@ export const RaceTrack = observer(() => {
             car={car}
             selected={selectedCarId === car.id}
             selectCar={selectCar}
-            resetSelection={resetSelection}
+            resetSelection={resetUpdateForm}
             broken={getEngineStatus(car.id) === EngineStatus.BROKEN}
             key={car.id}
           />

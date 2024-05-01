@@ -8,18 +8,30 @@ import styles from './ManagePanel.module.scss';
 
 export const ManagePanel = observer(() => {
   const {
-    managePanelStore: { selectedCarId, carValues, resetSelection },
+    managePanelStore: {
+      createFormValues,
+      updateFormValues,
+      onChangeCreateForm,
+      onChangeUpdateForm,
+      selectedCarId,
+      resetCreateForm,
+      resetUpdateForm,
+    },
   } = useStore();
 
   return (
     <div className={styles.panel}>
       <RaceControls />
-      <CreateCarForm />
+      <CreateCarForm
+        values={createFormValues}
+        onChange={onChangeCreateForm}
+        reset={resetCreateForm}
+      />
       <UpdateCarForm
         id={selectedCarId}
-        initialValues={carValues}
-        disabled={!selectedCarId}
-        resetSelection={resetSelection}
+        values={updateFormValues}
+        onChange={onChangeUpdateForm}
+        reset={resetUpdateForm}
       />
       <GenerateCarsButton />
     </div>
