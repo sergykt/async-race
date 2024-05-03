@@ -1,10 +1,10 @@
-import { makeAutoObservable, runInAction } from 'mobx';
+import { makeAutoObservable } from 'mobx';
 import { AxiosError } from 'axios';
 import { type IEngineFull, type IEngine, EngineStatus } from './types';
 import { engineApi } from '../api/api';
 
 export class EngineStore {
-  engines: Record<string, IEngineFull> = {};
+  engines = new Map<number, IEngineFull>();
 
   selectedEngines: number[] = [];
 
@@ -13,11 +13,11 @@ export class EngineStore {
   }
 
   getEngine = (id: number) => {
-    return this.engines[id];
+    return this.engines.get(id);
   };
 
   getEngineStatus = (id: number) => {
-    return this.engines[id]?.status ?? EngineStatus.STOPPED;
+    return this.getEngine(id)?.status ?? EngineStatus.STOPPED;
   };
 
   setSelectedEngines = (ids: number[]) => {
@@ -38,13 +38,11 @@ export class EngineStore {
 
       return engine;
     } catch (err) {
-      runInAction(() => {
-        if (err instanceof AxiosError && err.response?.status === 404) {
-          this.deleteEngine(id);
-        } else {
-          this.updateEngineStatus(id, EngineStatus.STOPPED);
-        }
-      });
+      if (err instanceof AxiosError && err.response?.status === 404) {
+        this.engines.delete(id);
+      } else {
+        this.updateEngineStatus(id, EngineStatus.STOPPED);
+      }
 
       throw err;
     }
@@ -57,27 +55,30 @@ export class EngineStore {
 
       return engine;
     } catch (err) {
-      runInAction(() => {
-        if (err instanceof AxiosError && err.response?.status === 404) {
-          this.deleteEngine(id);
-        }
-      });
+      if (err instanceof AxiosError && err.response?.status === 404) {
+        this.engines.delete(id);
+      }
 
       throw err;
     }
   };
 
   drive = async (id: number) => {
+    const engine = this.getEngine(id);
+    if (!engine) {
+      throw new Error('Engine not found');
+    }
+
     try {
       this.updateEngineStatus(id, EngineStatus.STARTED);
       setTimeout(() => this.updateEngineStatus(id, EngineStatus.DRIVE));
-      const { velocity, distance } = this.getEngine(id);
+      const { velocity, distance } = engine;
       const time = parseFloat((distance / velocity / 1000).toFixed(3));
       await engineApi.drive(id);
 
       return { id, time };
     } catch (err) {
-      if (this.engines[id].status === EngineStatus.DRIVE) {
+      if (this.getEngineStatus(id) === EngineStatus.DRIVE) {
         this.updateEngineStatus(id, EngineStatus.BROKEN);
       }
 
@@ -103,21 +104,17 @@ export class EngineStore {
     await Promise.all(resetSelectedEngines);
   };
 
-  private deleteEngine = (id: number) => {
-    runInAction(() => {
-      delete this.engines[id];
-    });
-  };
-
   private updateEngine = (id: number, engine: IEngine, status: EngineStatus) => {
-    runInAction(() => {
-      this.engines[id] = { ...this.engines[id], ...engine, status };
-    });
+    this.engines.set(id, { ...engine, status });
   };
 
   private updateEngineStatus = (id: number, status: EngineStatus) => {
-    runInAction(() => {
-      this.engines[id] = { ...this.engines[id], status };
-    });
+    const currentEngine = this.engines.get(id) ?? {
+      velocity: 0,
+      distance: 0,
+      status: EngineStatus.STOPPED,
+    };
+
+    this.engines.set(id, { ...currentEngine, status });
   };
 }

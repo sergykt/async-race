@@ -4,7 +4,7 @@ import { animateWithDuration } from './animation';
 
 interface IUseAnimationProps {
   id: number;
-  engine: IEngineFull | null;
+  engine?: IEngineFull;
   startPosition: number;
   setCarPosition: (id: number, position: React.CSSProperties) => void;
   setStopFn: (id: number, stopFn: () => void) => void;
